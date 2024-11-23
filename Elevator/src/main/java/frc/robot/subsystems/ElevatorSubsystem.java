@@ -1,47 +1,28 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
+// limit switch import
+// motor import
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ExampleSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public ExampleSubsystem() {}
+public class ElevatorSubsystem extends SubsystemBase {
+  
+  private final motor = new motor(); // create motor object (not sure what motor; temporary)
+  private static final double MAX_SPEED = 0.8; // set limit for max speed (80%)
+  // need feedforward for gravity?
+  
+  public ElevatorSubsystem() {}
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+
+  public void moveElevator() { // elevator motor will move under set conditions
+    if((speed > 0 && limitswitch.get()) || (speed < 0 && limitswitch.get())); { // activates limit switches if elevator has hit top or bottom and stops it (not sure whatlimit switch - needs to be adjusted)
+      speed = 0; // stops if it hits a limit switch
+    }
+    //Feed forward for gravity?
   }
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  public void stopsElevatorMotor() {
+    motor.set(0); // stops the motor - sets to 0
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
 }
